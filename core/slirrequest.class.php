@@ -40,7 +40,7 @@
 class SLIRRequest
 {
 
-  const CROP_RATIO_DELIMITERS = ':.x';
+  const DELIMITERS = ':x';
 
   /**
    * Path to image
@@ -77,6 +77,14 @@ class SLIRRequest
    * @var array
    */
   private $cropRatio;
+
+  /**
+   * Focus point
+   *
+   * @since 2.0
+   * @var array
+   */
+  private $focusPoint;
 
   /**
    * Name of the cropper to use, e.g. 'centered' or 'smart'
@@ -156,6 +164,7 @@ class SLIRRequest
     unset($this->width);
     unset($this->height);
     unset($this->cropRatio);
+    unset($this->focusPoint);
     unset($this->cropper);
     unset($this->quality);
     unset($this->progressive);
@@ -206,6 +215,11 @@ class SLIRRequest
       case 'c':
       case 'cropRatio':
         $this->setCropRatio($value);
+          break;
+
+      case 'f':
+      case 'focusPoint':
+        $this->setFocusPoint($value);
           break;
     } // switch
   }
@@ -290,7 +304,7 @@ class SLIRRequest
    */
   private function setCropRatio($value)
   {
-    $delimiters = preg_quote(self::CROP_RATIO_DELIMITERS);
+    $delimiters = preg_quote(self::DELIMITERS);
     $ratio      = preg_split("/[$delimiters]/", (string) urldecode($value));
     if (count($ratio) >= 2) {
       if ((float) $ratio[0] == 0 || (float) $ratio[1] == 0) {
@@ -309,6 +323,28 @@ class SLIRRequest
       }
     } else {
       throw new RuntimeException('Crop ratio must be in [width]x[height] format (e.g. 2x1): ' . (string) $value);
+    } // if
+  }
+
+  /**
+   * @param string $value
+   * @return void
+   */
+  private function setFocusPoint($value)
+  {
+    $delimiters = preg_quote(self::DELIMITERS);
+    $focus      = preg_split("/[$delimiters]/", (string) urldecode($value));
+    if (count($focus) == 2) {
+      if ((float) $focus[0] < 0 || (float) $focus[0] > 1 || (float) $focus[1] < 0 || (float) $focus[1] > 1) {
+        throw new RuntimeException('Focus point must be from 0 to 1: ' . (string) $value);
+      }
+
+      $this->focusPoint  = array(
+        'x'   => (float) $focus[0],
+        'y'   => (float) $focus[1],
+      );
+    } else {
+      throw new RuntimeException('Focus point must be in [width]x[height] format (e.g. 0.5x1): ' . (string) $value);
     } // if
   }
 
@@ -355,6 +391,7 @@ Available parameters:
  q = Quality (0-100)
  b = Background fill color (RRGGBB or RGB)
  p = Progressive (0 or 1)
+ f = Focus point (0-1)
 
 Example usage:
 /slir/w300-h300-c1.1/path/to/image.jpg');
@@ -530,6 +567,19 @@ Example usage:
   final public function isCropping()
   {
     if ($this->cropRatio['width'] !== null && $this->cropRatio['height'] !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * @since 2.0
+   * @return boolean
+   */
+  final public function isFocus()
+  {
+    if ($this->focusPoint['x'] !== null && $this->focusPoint['y'] !== null) {
       return true;
     } else {
       return false;

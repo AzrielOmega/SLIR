@@ -137,6 +137,12 @@ class SLIR
   const CROP_CLASS_SMART = 'smart';
 
   /**
+   * @since 2.0
+   * @var string
+   */
+  const CROP_CLASS_FOCUSED = 'focused';
+
+  /**
    * @var string
    * @since 2.0
    */
@@ -407,7 +413,8 @@ class SLIR
         ->setQuality($this->getQuality())
         ->setProgressive($this->getProgressive())
         ->setMimeType($this->getMimeType())
-        ->setCropper($this->getRequest()->cropper);
+        ->setCropper($this->getRequest()->cropper)
+        ->setFocus($this->getRequest()->focusPoint);
 
       // Set up the appropriate image handling parameters based on the original
       // image's mime type
@@ -1150,7 +1157,7 @@ class SLIR
     $this->initializeCache();
 
     // Try to create just a symlink to minimize disk space
-    if ($symlinkToPath && function_exists('symlink') && (file_exists($cacheFilePath) || symlink($symlinkToPath, $cacheFilePath))) {
+    if ($symlinkToPath && function_exists('symlink') && (file_exists($cacheFilePath) || @symlink($symlinkToPath, $cacheFilePath))) {
       return true;
     }
 

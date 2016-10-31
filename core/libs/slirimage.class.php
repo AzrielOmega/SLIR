@@ -37,6 +37,11 @@ abstract class SLIRImage
   protected $cropper;
 
   /**
+   * @var array specified focus to use
+   */
+  protected $focus;
+
+  /**
    * @var array information about the image
    */
   protected $info;
@@ -496,6 +501,43 @@ abstract class SLIRImage
   public function setCropper($cropper)
   {
     $this->cropper = $cropper;
+    return $this;
+  }
+
+  /**
+   * @return float
+   * @since 2.0
+   */
+  public function getFocusX()
+  {
+    if ($this->focus !== null) {
+      return $this->focus['x'];
+    } else {
+      return 0.5;
+    }
+  }
+
+  /**
+   * @return float
+   * @since 2.0
+   */
+  public function getFocusY()
+  {
+    if ($this->focus !== null) {
+      return $this->focus['y'];
+    } else {
+      return 0.5;
+    }
+  }
+
+  /**
+   * @param array $focus
+   * @return SLIRImage
+   * @since 2.0
+   */
+  public function setFocus($focus)
+  {
+    $this->focus = $focus;
     return $this;
   }
 

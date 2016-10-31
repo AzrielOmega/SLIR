@@ -103,11 +103,12 @@ class SLIRConfigDefaults
    * SLIR::CROP_CLASS_CENTERED
    * SLIR::CROP_CLASS_TOP_CENTERED
    * SLIR::CROP_CLASS_SMART
+   * SLIR::CROP_CLASS_FOCUSED
    *
    * @since 2.0
    * @var string
    */
-  public static $defaultCropper = SLIR::CROP_CLASS_CENTERED;
+  public static $defaultCropper = SLIR::CROP_CLASS_FOCUSED;
 
   /**
    * If true, SLIR will generate and output images from error messages. If false, error messages will be plaintext.

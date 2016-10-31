@@ -172,6 +172,29 @@ interface SLIRImageLibrary
   public function setCropper($cropper);
 
   /**
+   * Gets focus X to be used
+   * @return float
+   * @since 2.0
+   */
+  public function getFocusX();
+
+  /**
+   * Gets focus Y to be used
+   * @return float
+   * @since 2.0
+   */
+  public function getFocusY();
+
+  /**
+   * Sets the focus to be used
+   * @param array $focus
+   * @return SLIRImageLibrary
+   * @since 2.0
+   */
+  public function setFocus($focus);
+
+
+  /**
    * @return integer
    * @since 2.0
    */

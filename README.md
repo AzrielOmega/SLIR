@@ -48,6 +48,11 @@ To use SLIR, place an `<img\>` tag with the `src` attribute pointing to the path
       <td><code>/slir/<strong>c1x1</strong>/path/to/image.jpg</code></td>
     </tr>
     <tr>
+      <td><var>f</var></td>
+      <td>Crop focus point</td>
+      <td><code>/slir/<strong>c1x1-f0.3x0.5</strong>/path/to/image.jpg</code></td>
+    </tr>
+    <tr>
       <td><var>q</var></td>
       <td>Quality</td>
       <td><code>/slir/<strong>q60</strong>/path/to/image.jpg</code></td>
@@ -86,6 +91,11 @@ To do this, you simply need to make the crop ratio match up with the desired wid
 Or, more concisely:
 
     <img src="/slir/w150-h100-c15x10/path/to/image.jpg"/>
+
+#### Cropping an image base on focus point (only work when cropping
+Image width from left(0) to right(1), height from top(0) to bottom(1). Default cropper crop image from center of both side (0.5x0.5).
+
+    <img src="/slir/c1x1-f0.2x0.8/path/to/image.jpg"/>
 
 However, SLIR will not enlarge images. So, if your source image is smaller than the desired size you will need to use CSS to make it the correct size.
 
